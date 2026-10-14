@@ -1,0 +1,277 @@
+{
+  "schema_version": 1,
+  "description": "Synthetic fixtures used only by the parent application's compatibility gate. These are not student roster records.",
+  "cases": [
+    {
+      "id": "strict-history-and-next-step",
+      "tutor_id": "tutor_abhishek",
+      "question": "I am Anika Rao (QA-101). Explain my assessment history and give me one direct next step. Be exact.",
+      "student_records": [
+        {
+          "student_id": "QA-101",
+          "name": "Anika Rao",
+          "assessment_history": [
+            {
+              "subject": "Mathematics",
+              "assessment": "Fractions Check",
+              "score": 81,
+              "out_of": 100,
+              "assessed_on": "2026-09-18"
+            },
+            {
+              "subject": "English",
+              "assessment": "Vocabulary Quiz",
+              "score": 74,
+              "out_of": 100,
+              "assessed_on": "2026-09-04"
+            }
+          ],
+          "areas_for_improvement": [
+            "review key vocabulary"
+          ]
+        }
+      ],
+      "required_facts": [
+        "2026-09-18",
+        "Fractions Check",
+        "2026-09-04",
+        "Vocabulary Quiz",
+        "review key vocabulary"
+      ],
+      "expected_score_pairs": [
+        [
+          81,
+          100
+        ],
+        [
+          74,
+          100
+        ]
+      ],
+      "min_words": 30,
+      "max_paragraphs": 2,
+      "forbid_bullets": true,
+      "forbid_invented_schedule": true,
+      "persona_expectation": "Direct, strict, concise, evidence-first, and specific about the next action. No jokes or sugary praise."
+    },
+    {
+      "id": "empathetic-feedback",
+      "tutor_id": "tutor_siddhant",
+      "question": "I am Nisha Kulkarni (QA-202). I feel discouraged after this result. Can you explain it kindly and suggest one small thing I can try?",
+      "student_records": [
+        {
+          "student_id": "QA-202",
+          "name": "Nisha Kulkarni",
+          "latest_assessment": {
+            "subject": "Science",
+            "assessment": "Forces Quiz",
+            "score": 42,
+            "out_of": 100,
+            "assessed_on": "2026-09-20"
+          },
+          "areas_for_improvement": [
+            "show each calculation step",
+            "review key vocabulary"
+          ]
+        }
+      ],
+      "required_facts": [
+        "Forces Quiz",
+        "2026-09-20",
+        "show each calculation step"
+      ],
+      "expected_score_pairs": [
+        [
+          42,
+          100
+        ]
+      ],
+      "max_paragraphs": 2,
+      "forbid_bullets": true,
+      "forbid_invented_schedule": true,
+      "persona_expectation": "Acknowledge the explicitly stated discouragement with empathy, explain the recorded result honestly, and give one kind, manageable next step. No jokes or score inflation."
+    },
+    {
+      "id": "witty-feedback-with-facts",
+      "tutor_id": "tutor_vicky",
+      "question": "I am Rohan Iyer (QA-303). What was my latest assessment, and what should I work on next?",
+      "student_records": [
+        {
+          "student_id": "QA-303",
+          "name": "Rohan Iyer",
+          "assessment_history": [
+            {
+              "subject": "Science",
+              "assessment": "Energy Review",
+              "score": 91,
+              "out_of": 100,
+              "assessed_on": "2026-09-22"
+            },
+            {
+              "subject": "Mathematics",
+              "assessment": "Geometry Quiz",
+              "score": 88,
+              "out_of": 100,
+              "assessed_on": "2026-09-08"
+            }
+          ],
+          "areas_for_improvement": [
+            "check units in final answers"
+          ]
+        }
+      ],
+      "required_facts": [
+        "Energy Review",
+        "2026-09-22",
+        "check units in final answers"
+      ],
+      "expected_score_pairs": [
+        [
+          91,
+          100
+        ]
+      ],
+      "max_paragraphs": 2,
+      "forbid_bullets": true,
+      "forbid_invented_schedule": true,
+      "persona_expectation": "Conversational and lightly joke-cracking, while reporting only the latest assessment exactly and making the student or their marks no one's punchline. Give one practical next step."
+    },
+    {
+      "id": "strict-latest-only",
+      "tutor_id": "tutor_abhishek",
+      "question": "I am Kavya Menon (QA-104). Tell me only my latest assessment result.",
+      "student_records": [
+        {
+          "student_id": "QA-104",
+          "name": "Kavya Menon",
+          "assessment_history": [
+            {
+              "subject": "Chemistry",
+              "assessment": "Matter Quiz",
+              "score": 87,
+              "out_of": 100,
+              "assessed_on": "2026-10-01"
+            },
+            {
+              "subject": "English",
+              "assessment": "Reading Check",
+              "score": 72,
+              "out_of": 100,
+              "assessed_on": "2026-09-17"
+            }
+          ]
+        }
+      ],
+      "required_facts": [
+        "Matter Quiz",
+        "2026-10-01"
+      ],
+      "expected_score_pairs": [
+        [
+          87,
+          100
+        ]
+      ],
+      "min_words": 15,
+      "max_paragraphs": 2,
+      "forbid_bullets": true,
+      "forbid_invented_schedule": true,
+      "persona_expectation": "Strict, direct, concise, and evidence-first. Give only the latest result. No joke, emoji, or sugary praise."
+    },
+    {
+      "id": "empathetic-history-and-next-step",
+      "tutor_id": "tutor_siddhant",
+      "question": "I am Nisha Kulkarni (QA-204), and I feel unsure about my assessment history. Can you explain all my results and give one small suggestion?",
+      "student_records": [
+        {
+          "student_id": "QA-204",
+          "name": "Nisha Kulkarni",
+          "assessment_history": [
+            {
+              "subject": "Mathematics",
+              "assessment": "Fractions Review",
+              "score": 68,
+              "out_of": 100,
+              "assessed_on": "2026-10-03"
+            },
+            {
+              "subject": "Science",
+              "assessment": "Plants Quiz",
+              "score": 72,
+              "out_of": 100,
+              "assessed_on": "2026-09-19"
+            }
+          ],
+          "areas_for_improvement": [
+            "show each calculation step",
+            "review key vocabulary"
+          ]
+        }
+      ],
+      "required_facts": [
+        "Fractions Review",
+        "2026-10-03",
+        "Plants Quiz",
+        "2026-09-19",
+        "show each calculation step"
+      ],
+      "expected_score_pairs": [
+        [
+          68,
+          100
+        ],
+        [
+          72,
+          100
+        ]
+      ],
+      "min_words": 35,
+      "max_paragraphs": 2,
+      "forbid_bullets": true,
+      "forbid_invented_schedule": true,
+      "persona_expectation": "Acknowledge the stated uncertainty kindly, report both results exactly, and suggest exactly one recorded improvement in a patient, supportive voice. No jokes or invented study plan."
+    },
+    {
+      "id": "witty-latest-only",
+      "tutor_id": "tutor_vicky",
+      "question": "I am Rohan Iyer (QA-304). What was my latest assessment result?",
+      "student_records": [
+        {
+          "student_id": "QA-304",
+          "name": "Rohan Iyer",
+          "assessment_history": [
+            {
+              "subject": "Mathematics",
+              "assessment": "Algebra Check",
+              "score": 84,
+              "out_of": 100,
+              "assessed_on": "2026-10-05"
+            },
+            {
+              "subject": "History",
+              "assessment": "Early India Quiz",
+              "score": 79,
+              "out_of": 100,
+              "assessed_on": "2026-09-18"
+            }
+          ]
+        }
+      ],
+      "required_facts": [
+        "Algebra Check",
+        "2026-10-05"
+      ],
+      "expected_score_pairs": [
+        [
+          84,
+          100
+        ]
+      ],
+      "min_words": 20,
+      "max_paragraphs": 2,
+      "forbid_bullets": true,
+      "forbid_invented_schedule": true,
+      "persona_expectation": "Upbeat and conversational, with a brief harmless joke or playful comparison that does not make the student or marks the punchline. Report only the latest result accurately."
+    }
+  ]
+}

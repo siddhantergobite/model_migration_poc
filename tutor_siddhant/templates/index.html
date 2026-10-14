@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="{{ tutor.theme }}">
+  <title>{{ tutor.name }} | Student Tutor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body style="--accent: {{ tutor.theme }}">
+  <div class="app-frame">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="{{ tutor.name }} home">
+        <span class="brand-mark">{{ tutor.symbol }}</span>
+        <span class="brand-copy"><strong>Student Tutor</strong><small>V1 CLASSROOM ASSISTANT</small></span>
+      </a>
+      <span class="status-pill" id="connection-status"><i></i> Checking MongoDB</span>
+    </header>
+
+    <main class="workspace">
+      <section class="hero">
+        <div class="eyebrow"><span></span>PERSONAL TUTOR</div>
+        <h1>{{ tutor.name }}</h1>
+        <p class="role">{{ tutor.role }}</p>
+        <p class="tagline">{{ tutor.tagline }}</p>
+      </section>
+
+      <section class="chat-card" aria-label="Chat with {{ tutor.name }}">
+        <div class="chat-heading">
+          <span class="tutor-avatar">{{ tutor.symbol }}</span>
+          <div><h2>Chat with {{ tutor.short_name }}</h2><p>Ask about a student by full name or student ID.</p></div>
+          <span class="chat-live"><i></i>READY</span>
+        </div>
+        <div class="chat-messages" id="chat-messages" aria-live="polite">
+          <div class="message assistant-message">
+            <span class="message-avatar">{{ tutor.symbol }}</span>
+            <p>{{ tutor.greeting }}</p>
+          </div>
+        </div>
+        <form id="question-form" class="composer">
+          <textarea id="question-input" rows="2" placeholder="Ask about a student or class..." aria-label="Your question"></textarea>
+          <button id="send-button" type="submit"><span>Ask tutor</span><b aria-hidden="true">&#8594;</b></button>
+        </form>
+        <div class="composer-foot"><span>Include the student's full name or ID for an individual answer.</span><span>Enter to send; Shift+Enter for a new line</span></div>
+      </section>
+    </main>
+  </div>
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</body>
+</html>

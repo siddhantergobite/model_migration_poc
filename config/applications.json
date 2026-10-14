@@ -1,0 +1,83 @@
+{
+  "schema_version": 2,
+  "applications": [
+    {
+      "application_id": "tutor_abhishek",
+      "display_name": "Tutor Abhishek",
+      "persona_id": "tutor_abhishek",
+      "health_url_env": "TUTOR_ABHISHEK_HEALTH_URL",
+      "health_url": "http://127.0.0.1:5101/api/health",
+      "gateway_token_env": "MODEL_GATEWAY_TOKEN_TUTOR_ABHISHEK",
+      "gateway_token_sha256": "",
+      "legacy_shared_token_fallback": true,
+      "prompt_revision": 1,
+      "prompt_sha256": "8cd78e845964b5bc888dffd9b56a682219371a1c4ed220b0745a7b58cb057d9a",
+      "data_source": "MongoDB records selected by the tutor application",
+      "data_integration": {
+        "mode": "client_selected_context",
+        "description": "The tutor app selects records from its configured MongoDB collection and sends only the relevant JSON context to the parent.",
+        "scope": "Requests authenticated with this application's credential are bound to this application ID."
+      },
+      "api_schema": {
+        "version": "v1",
+        "request": ["application_id", "tutor_id", "question", "student_records"],
+        "response": ["answer", "mode", "release_id", "contract_revision", "prompt_revision"]
+      },
+      "tool_schema": [],
+      "request_contract": "POST /api/v1/respond: application_id, tutor_id, question, student_records; response: answer, mode, release_id, contract_revision, prompt_revision",
+      "auth_mode": "Per-application bearer token (legacy shared token fallback for local sample apps)"
+    },
+    {
+      "application_id": "tutor_siddhant",
+      "display_name": "Tutor Siddhant",
+      "persona_id": "tutor_siddhant",
+      "health_url_env": "TUTOR_SIDDHANT_HEALTH_URL",
+      "health_url": "http://127.0.0.1:5102/api/health",
+      "gateway_token_env": "MODEL_GATEWAY_TOKEN_TUTOR_SIDDHANT",
+      "gateway_token_sha256": "",
+      "legacy_shared_token_fallback": true,
+      "prompt_revision": 1,
+      "prompt_sha256": "4693965602327f363be0caf7449f7fb7e6a45f54e21bac63caff68f96aba356a",
+      "data_source": "MongoDB records selected by the tutor application",
+      "data_integration": {
+        "mode": "client_selected_context",
+        "description": "The tutor app selects records from its configured MongoDB collection and sends only the relevant JSON context to the parent.",
+        "scope": "Requests authenticated with this application's credential are bound to this application ID."
+      },
+      "api_schema": {
+        "version": "v1",
+        "request": ["application_id", "tutor_id", "question", "student_records"],
+        "response": ["answer", "mode", "release_id", "contract_revision", "prompt_revision"]
+      },
+      "tool_schema": [],
+      "request_contract": "POST /api/v1/respond: application_id, tutor_id, question, student_records; response: answer, mode, release_id, contract_revision, prompt_revision",
+      "auth_mode": "Per-application bearer token (legacy shared token fallback for local sample apps)"
+    },
+    {
+      "application_id": "tutor_vicky",
+      "display_name": "Tutor Vicky",
+      "persona_id": "tutor_vicky",
+      "health_url_env": "TUTOR_VICKY_HEALTH_URL",
+      "health_url": "http://127.0.0.1:5103/api/health",
+      "gateway_token_env": "MODEL_GATEWAY_TOKEN_TUTOR_VICKY",
+      "gateway_token_sha256": "",
+      "legacy_shared_token_fallback": true,
+      "prompt_revision": 1,
+      "prompt_sha256": "468418763d8c7a1284764bfdd8462cf310ce636178668743ccb88200c0392367",
+      "data_source": "MongoDB records selected by the tutor application",
+      "data_integration": {
+        "mode": "client_selected_context",
+        "description": "The tutor app selects records from its configured MongoDB collection and sends only the relevant JSON context to the parent.",
+        "scope": "Requests authenticated with this application's credential are bound to this application ID."
+      },
+      "api_schema": {
+        "version": "v1",
+        "request": ["application_id", "tutor_id", "question", "student_records"],
+        "response": ["answer", "mode", "release_id", "contract_revision", "prompt_revision"]
+      },
+      "tool_schema": [],
+      "request_contract": "POST /api/v1/respond: application_id, tutor_id, question, student_records; response: answer, mode, release_id, contract_revision, prompt_revision",
+      "auth_mode": "Per-application bearer token (legacy shared token fallback for local sample apps)"
+    }
+  ]
+}
