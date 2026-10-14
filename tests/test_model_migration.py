@@ -10,6 +10,7 @@ from typing import Any
 from unittest.mock import patch
 
 from model_migration.azure_responses import AzureResponsesError
+from model_migration.application_registry import ApplicationRegistry
 from model_migration.control_store import ControlStore, ControlStoreError
 from model_migration.evaluation import _deterministic_check
 from model_migration.generation import generate_tutor_answer
@@ -94,6 +95,15 @@ class ParentGatewayTests(unittest.TestCase):
             admin_token="admin-test-token",
             gateway_token="gateway-test-token",
         )
+        # Keep the gateway tests independent of local development credential
+        # hashes in config/applications.json. The test app supplies its own
+        # explicit shared gateway token above.
+        registry_data = json.loads((ROOT / "config" / "applications.json").read_text(encoding="utf-8"))
+        for application in registry_data["applications"]:
+            application["gateway_token_sha256"] = ""
+        registry_path = Path(self.temp_dir.name) / "applications.json"
+        registry_path.write_text(json.dumps(registry_data), encoding="utf-8")
+        app.config["APPLICATION_REGISTRY"] = ApplicationRegistry(registry_path)
         app.config["TESTING"] = True
         self.client = app.test_client()
 

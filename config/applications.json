@@ -8,7 +8,7 @@
       "health_url_env": "TUTOR_ABHISHEK_HEALTH_URL",
       "health_url": "http://127.0.0.1:5101/api/health",
       "gateway_token_env": "MODEL_GATEWAY_TOKEN_TUTOR_ABHISHEK",
-      "gateway_token_sha256": "",
+      "gateway_token_sha256": "8405fe949cb2d5757cfe5e5115e56e6e41468a57ea50e20a283420c5f72b1ece",
       "legacy_shared_token_fallback": true,
       "prompt_revision": 1,
       "prompt_sha256": "8cd78e845964b5bc888dffd9b56a682219371a1c4ed220b0745a7b58cb057d9a",
@@ -20,8 +20,19 @@
       },
       "api_schema": {
         "version": "v1",
-        "request": ["application_id", "tutor_id", "question", "student_records"],
-        "response": ["answer", "mode", "release_id", "contract_revision", "prompt_revision"]
+        "request": [
+          "application_id",
+          "tutor_id",
+          "question",
+          "student_records"
+        ],
+        "response": [
+          "answer",
+          "mode",
+          "release_id",
+          "contract_revision",
+          "prompt_revision"
+        ]
       },
       "tool_schema": [],
       "request_contract": "POST /api/v1/respond: application_id, tutor_id, question, student_records; response: answer, mode, release_id, contract_revision, prompt_revision",
@@ -34,7 +45,7 @@
       "health_url_env": "TUTOR_SIDDHANT_HEALTH_URL",
       "health_url": "http://127.0.0.1:5102/api/health",
       "gateway_token_env": "MODEL_GATEWAY_TOKEN_TUTOR_SIDDHANT",
-      "gateway_token_sha256": "",
+      "gateway_token_sha256": "f4a3ded62a7ebd9028a04502f45be2510098fd732bea9a88ff039e0f50d434a0",
       "legacy_shared_token_fallback": true,
       "prompt_revision": 1,
       "prompt_sha256": "4693965602327f363be0caf7449f7fb7e6a45f54e21bac63caff68f96aba356a",
@@ -46,8 +57,19 @@
       },
       "api_schema": {
         "version": "v1",
-        "request": ["application_id", "tutor_id", "question", "student_records"],
-        "response": ["answer", "mode", "release_id", "contract_revision", "prompt_revision"]
+        "request": [
+          "application_id",
+          "tutor_id",
+          "question",
+          "student_records"
+        ],
+        "response": [
+          "answer",
+          "mode",
+          "release_id",
+          "contract_revision",
+          "prompt_revision"
+        ]
       },
       "tool_schema": [],
       "request_contract": "POST /api/v1/respond: application_id, tutor_id, question, student_records; response: answer, mode, release_id, contract_revision, prompt_revision",
@@ -60,7 +82,7 @@
       "health_url_env": "TUTOR_VICKY_HEALTH_URL",
       "health_url": "http://127.0.0.1:5103/api/health",
       "gateway_token_env": "MODEL_GATEWAY_TOKEN_TUTOR_VICKY",
-      "gateway_token_sha256": "",
+      "gateway_token_sha256": "272868d455274dfc6cba1d910b32399c2041c30c62182a3b3ce4924990806bab",
       "legacy_shared_token_fallback": true,
       "prompt_revision": 1,
       "prompt_sha256": "468418763d8c7a1284764bfdd8462cf310ce636178668743ccb88200c0392367",
@@ -72,8 +94,19 @@
       },
       "api_schema": {
         "version": "v1",
-        "request": ["application_id", "tutor_id", "question", "student_records"],
-        "response": ["answer", "mode", "release_id", "contract_revision", "prompt_revision"]
+        "request": [
+          "application_id",
+          "tutor_id",
+          "question",
+          "student_records"
+        ],
+        "response": [
+          "answer",
+          "mode",
+          "release_id",
+          "contract_revision",
+          "prompt_revision"
+        ]
       },
       "tool_schema": [],
       "request_contract": "POST /api/v1/respond: application_id, tutor_id, question, student_records; response: answer, mode, release_id, contract_revision, prompt_revision",

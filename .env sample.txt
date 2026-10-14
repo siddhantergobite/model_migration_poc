@@ -1,0 +1,10 @@
+AZURE_OPENAI_ENDPOINT=https://abhishekazureopenaitest.openai.azure.com/openai/v1
+AZURE_OPENAI_API_KEY=replace-with-your-azure-openai-key
+TUTOR_MODEL=gpt-5-nano
+MODEL_PARENT_URL=http://127.0.0.1:8765
+MODEL_CONTROL_STATE_PATH=config/model_control.json
+MODEL_ADMIN_TOKEN=replace-with-a-long-random-admin-token
+MODEL_GATEWAY_TOKEN=replace-with-a-long-random-gateway-token
+MODEL_GATEWAY_TOKEN_TUTOR_ABHISHEK=replace-with-abhishek-app-token
+MODEL_GATEWAY_TOKEN_TUTOR_SIDDHANT=replace-with-siddhant-app-token
+MODEL_GATEWAY_TOKEN_TUTOR_VICKY=replace-with-vicky-app-token
