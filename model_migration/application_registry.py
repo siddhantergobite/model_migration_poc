@@ -17,7 +17,7 @@ class ApplicationRegistryError(RuntimeError):
 
 
 class ApplicationRegistry:
-    """Small local-POC registry; credential values are stored as SHA-256 hashes."""
+    """Persistent client application registry; credentials are stored as SHA-256 hashes."""
 
     def __init__(self, path: Path) -> None:
         self.path = path.resolve()

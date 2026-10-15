@@ -1,0 +1,249 @@
+{
+  "schema_version": 1,
+  "description": "Reserved behavior validation fixtures. Keep these separate from cases used to tune parent compatibility guidance.",
+  "cases": [
+    {
+      "id": "holdout-strict-latest-and-action",
+      "tutor_id": "tutor_abhishek",
+      "question": "I am Tara Sen (QA-401). Tell me only my latest assessment and one direct action I should take next.",
+      "student_records": [
+        {
+          "student_id": "QA-401",
+          "name": "Tara Sen",
+          "assessment_history": [
+            {
+              "subject": "Mathematics",
+              "assessment": "Decimals Check",
+              "score": 63,
+              "out_of": 100,
+              "assessed_on": "2026-10-06"
+            },
+            {
+              "subject": "Science",
+              "assessment": "Weather Review",
+              "score": 77,
+              "out_of": 100,
+              "assessed_on": "2026-09-21"
+            }
+          ],
+          "areas_for_improvement": [
+            "show each calculation step",
+            "check answers before submitting"
+          ]
+        }
+      ],
+      "required_facts": ["Mathematics", "Decimals Check", "2026-10-06"],
+      "expected_score_pairs": [[63, 100]],
+      "min_words": 15,
+      "max_paragraphs": 3,
+      "forbid_bullets": true,
+      "forbid_invented_schedule": true,
+      "recommendation_policy": "any_recorded_improvement",
+      "persona_expectation": "Direct, strict, concise, and evidence-first. Report only the latest result and give one action without softening the conclusion."
+    },
+    {
+      "id": "holdout-strict-history-and-action",
+      "tutor_id": "tutor_abhishek",
+      "question": "I am Kabir Shah (QA-402). Give me my assessment history and one direct next step based on the record.",
+      "student_records": [
+        {
+          "student_id": "QA-402",
+          "name": "Kabir Shah",
+          "assessment_history": [
+            {
+              "subject": "English",
+              "assessment": "Summary Writing",
+              "score": 71,
+              "out_of": 100,
+              "assessed_on": "2026-10-08"
+            },
+            {
+              "subject": "Mathematics",
+              "assessment": "Ratio Quiz",
+              "score": 66,
+              "out_of": 100,
+              "assessed_on": "2026-09-25"
+            }
+          ],
+          "areas_for_improvement": [
+            "show each calculation step",
+            "submit homework consistently"
+          ]
+        }
+      ],
+      "required_facts": [
+        "English", "Summary Writing", "2026-10-08",
+        "Mathematics", "Ratio Quiz", "2026-09-25"
+      ],
+      "expected_score_pairs": [[71, 100], [66, 100]],
+      "min_words": 25,
+      "max_paragraphs": 3,
+      "forbid_bullets": true,
+      "forbid_invented_schedule": true,
+      "recommendation_policy": "any_recorded_improvement",
+      "persona_expectation": "Blunt, strict, concise, and evidence-first. State the record clearly and give exactly one direct action."
+    },
+    {
+      "id": "holdout-empathetic-latest-and-action",
+      "tutor_id": "tutor_siddhant",
+      "question": "I am Meera Nair (QA-403), and I feel nervous about my latest result. Can you explain it kindly and suggest one manageable next step?",
+      "student_records": [
+        {
+          "student_id": "QA-403",
+          "name": "Meera Nair",
+          "assessment_history": [
+            {
+              "subject": "Science",
+              "assessment": "Light and Sound Quiz",
+              "score": 54,
+              "out_of": 100,
+              "assessed_on": "2026-10-09"
+            },
+            {
+              "subject": "English",
+              "assessment": "Poetry Check",
+              "score": 70,
+              "out_of": 100,
+              "assessed_on": "2026-09-27"
+            }
+          ],
+          "areas_for_improvement": [
+            "review key vocabulary",
+            "show each calculation step"
+          ]
+        }
+      ],
+      "required_facts": ["Science", "Light and Sound Quiz", "2026-10-09"],
+      "expected_score_pairs": [[54, 100]],
+      "min_words": 25,
+      "max_paragraphs": 3,
+      "forbid_bullets": true,
+      "forbid_invented_schedule": true,
+      "recommendation_policy": "any_recorded_improvement",
+      "persona_expectation": "Patient, empathetic, and encouraging. Acknowledge the stated nervousness, report the result honestly, and offer one small recorded next step without adding a study plan."
+    },
+    {
+      "id": "holdout-empathetic-history-and-action",
+      "tutor_id": "tutor_siddhant",
+      "question": "I am Arjun Bose (QA-404). I am unsure how I am doing overall. Please explain both assessment results gently and give me one small suggestion.",
+      "student_records": [
+        {
+          "student_id": "QA-404",
+          "name": "Arjun Bose",
+          "assessment_history": [
+            {
+              "subject": "Mathematics",
+              "assessment": "Percentages Quiz",
+              "score": 76,
+              "out_of": 100,
+              "assessed_on": "2026-10-07"
+            },
+            {
+              "subject": "Science",
+              "assessment": "Materials Test",
+              "score": 61,
+              "out_of": 100,
+              "assessed_on": "2026-09-22"
+            }
+          ],
+          "areas_for_improvement": [
+            "check answers before submitting",
+            "review key vocabulary"
+          ]
+        }
+      ],
+      "required_facts": [
+        "Mathematics", "Percentages Quiz", "2026-10-07",
+        "Science", "Materials Test", "2026-09-22"
+      ],
+      "expected_score_pairs": [[76, 100], [61, 100]],
+      "min_words": 30,
+      "max_paragraphs": 3,
+      "forbid_bullets": true,
+      "forbid_invented_schedule": true,
+      "recommendation_policy": "any_recorded_improvement",
+      "persona_expectation": "Warm, patient, and respectful. Explain both stored results without inventing an overall rating, then give one manageable recorded suggestion."
+    },
+    {
+      "id": "holdout-playful-latest-and-action",
+      "tutor_id": "tutor_vicky",
+      "question": "I am Leela Das (QA-405). What was my latest assessment, and what is one thing to work on next?",
+      "student_records": [
+        {
+          "student_id": "QA-405",
+          "name": "Leela Das",
+          "assessment_history": [
+            {
+              "subject": "Mathematics",
+              "assessment": "Fractions and Decimals",
+              "score": 82,
+              "out_of": 100,
+              "assessed_on": "2026-10-11"
+            },
+            {
+              "subject": "History",
+              "assessment": "Ancient Cities Quiz",
+              "score": 73,
+              "out_of": 100,
+              "assessed_on": "2026-09-30"
+            }
+          ],
+          "areas_for_improvement": [
+            "check units in final answers",
+            "show each calculation step"
+          ]
+        }
+      ],
+      "required_facts": ["Mathematics", "Fractions and Decimals", "2026-10-11"],
+      "expected_score_pairs": [[82, 100]],
+      "min_words": 20,
+      "max_paragraphs": 3,
+      "forbid_bullets": true,
+      "forbid_invented_schedule": true,
+      "recommendation_policy": "any_recorded_improvement",
+      "persona_expectation": "Upbeat and playful with at most one brief harmless joke. Report only the latest result accurately and give one recorded next step; the student and marks are never the punchline."
+    },
+    {
+      "id": "holdout-playful-history-and-action",
+      "tutor_id": "tutor_vicky",
+      "question": "I am Devika Roy (QA-406). Can you walk me through my assessment history and give me one practical thing to focus on?",
+      "student_records": [
+        {
+          "student_id": "QA-406",
+          "name": "Devika Roy",
+          "assessment_history": [
+            {
+              "subject": "English",
+              "assessment": "Reading Skills Review",
+              "score": 89,
+              "out_of": 100,
+              "assessed_on": "2026-10-04"
+            },
+            {
+              "subject": "Science",
+              "assessment": "Plant Life Quiz",
+              "score": 78,
+              "out_of": 100,
+              "assessed_on": "2026-09-16"
+            }
+          ],
+          "areas_for_improvement": [
+            "review key vocabulary",
+            "check answers before submitting"
+          ]
+        }
+      ],
+      "required_facts": [
+        "English", "Reading Skills Review", "2026-10-04",
+        "Science", "Plant Life Quiz", "2026-09-16"
+      ],
+      "expected_score_pairs": [[89, 100], [78, 100]],
+      "min_words": 25,
+      "max_paragraphs": 3,
+      "forbid_bullets": true,
+      "forbid_invented_schedule": true,
+      "recommendation_policy": "any_recorded_improvement",
+      "persona_expectation": "Upbeat, conversational, and lightly playful. Report every requested result accurately, then give one concise recorded action and no extra offer or study plan."
+    }
+  ]
+}

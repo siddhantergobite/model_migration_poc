@@ -110,6 +110,9 @@ def _student_context(student: dict[str, Any], question: str) -> dict[str, Any]:
     return context
 
 
+student_context_for_question = _student_context
+
+
 def create_tutor_app(tutor_dir: Path) -> tuple[Flask, dict[str, Any]]:
     tutor_dir = tutor_dir.resolve()
     persona = read_persona(tutor_dir)

@@ -3,147 +3,134 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#102d27">
-  <title>Northstar | Model lifecycle</title>
-  <link rel="stylesheet" href="/static/parent.css?v=3">
+  <meta name="theme-color" content="#f4f6f2">
+  <title>Model Compatibility Control</title>
+  <link rel="stylesheet" href="/static/parent.css?v=9">
 </head>
 <body>
-  <aside class="sidebar">
-    <a class="brand" href="/" aria-label="Northstar home">
-      <span class="brand-mark">N</span>
-      <span><strong>northstar</strong><small>MODEL PLATFORM</small></span>
-    </a>
-    <div class="workspace-label">WORKSPACE</div>
-    <div class="workspace"><span class="workspace-icon">M</span><span><strong>Migration lab</strong><small>Local workspace</small></span><span class="chevron">⌄</span></div>
-    <div class="workspace-label control-label">CONTROL PLANE</div>
-    <a class="nav-item active" href="#overview"><span>▥</span> Overview</a>
-    <a class="nav-item" href="#applications"><span>APP</span> Applications</a>
-    <a class="nav-item" href="#behavior"><span>◉</span> Behavior profile</a>
-    <a class="nav-item" href="#benchmarks"><span>▤</span> Benchmarks</a>
-    <div class="sidebar-bottom"><span class="status-dot"></span> Azure-only model routing</div>
-  </aside>
-
-  <main class="main" id="overview">
+  <main class="app-shell">
     <header class="topbar">
-      <div class="breadcrumbs">Control plane <span>/</span> Model upgrades</div>
-      <div class="top-actions"><span class="mode-badge"><i></i> CONTROL PLANE</span><button class="quiet-button" id="refreshButton" title="Refresh current state">↻</button><button class="avatar" id="authOpen" title="Set admin token">A</button></div>
+      <a class="brand" href="/" aria-label="Model Compatibility Control home">
+        <span class="brand-mark">M</span>
+        <span><strong>Model Compatibility Control</strong><small>REGISTERED APPLICATIONS</small></span>
+      </a>
+      <div class="top-actions">
+        <span class="service-pill" id="serviceStatus">Checking parent...</span>
+        <button class="secondary-button" id="refreshButton" type="button">Refresh</button>
+        <button class="secondary-button" id="authOpen" type="button">Admin access</button>
+      </div>
     </header>
 
-    <section class="hero">
-      <div class="eyebrow"><span></span> MODEL LIFECYCLE</div>
-      <h1>Behavior stays.<br><em>Models move.</em></h1>
-      <p>Upgrade the engine behind an application while keeping its persona, grading rules, and response contract intact.</p>
-      <div class="orbit" aria-hidden="true"><span>↗</span><small>One stable contract<br><b>many model generations</b></small></div>
+    <section class="intro">
+      <p class="eyebrow">MODEL UPGRADE CHECK</p>
+      <h1>Check the new model before it goes live.</h1>
+      <p>The active model keeps serving while a candidate is evaluated. Tutor prompts and student context stay the same. Review the answers before promotion.</p>
     </section>
 
-    <div class="notice" id="notice" role="status" hidden></div>
+    <div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
 
-    <section class="summary-grid" aria-label="Current configuration">
-      <article class="summary-card active-card"><div class="card-label">ACTIVE MODEL <span class="live"><i></i> LIVE</span></div><strong id="activeModel">Loading…</strong><small id="activeRelease">Reading active release</small></article>
-      <article class="summary-card"><div class="card-label">REGISTERED APPLICATIONS <span class="spark">LIVE</span></div><strong id="applicationHealthCount">Loading</strong><small>Live status of connected tutor apps</small></article>
-      <article class="summary-card"><div class="card-label">REGRESSION SUITE <span class="spark">QA</span></div><strong id="regressionCaseCount">Loading <small>cases</small></strong><small>Behavior coverage across registered applications</small></article>
+    <section class="release-grid" aria-label="Model release status">
+      <article class="release-card active-card">
+        <span class="field-label">ACTIVE MODEL</span>
+        <strong id="activeModel">Loading...</strong>
+        <small id="activeRelease">Loading active release</small>
+      </article>
+      <article class="release-card">
+        <span class="field-label">CANDIDATE MODEL</span>
+        <strong id="candidateOverview">Not staged</strong>
+        <small id="candidateStatus">Enter a deployment below</small>
+      </article>
+      <article class="release-card">
+        <span class="field-label">SAVED CHECKS</span>
+        <strong><span id="regressionCaseCount">-</span> cases</strong>
+        <small id="regressionSummary">Saved cases across the configured tutors</small>
+      </article>
     </section>
 
-    <section class="panel registry-panel" id="applications">
-      <div class="panel-heading"><div><div class="section-label">APPLICATION REGISTRY</div><h2>Connected client applications</h2></div><div class="heading-actions"><span class="status-label" id="applicationRegistryStatus">LOADING</span><button class="secondary-button" id="registerApplicationOpen">Register application</button></div></div>
-      <div class="application-grid" id="applicationGrid"><div class="application-empty">Loading registered application health...</div></div>
-      <div class="panel-foot"><span class="info-icon">i</span> Each app has a locked prompt snapshot, app-scoped credential, API contract, and regression cases. The parent routes all requests through the active Azure release.</div>
-    </section>
-
-    <section class="panel upgrade-panel" id="benchmarks">
-      <div class="panel-heading"><div><div class="section-label">SAFE MODEL UPGRADE</div><h2>Evaluate a candidate</h2></div><span class="gate-pill" id="gatePill"><i></i><span>Checks required</span></span></div>
-      <div class="upgrade-row">
-        <div class="release-box"><div class="mini-label">CURRENT RELEASE</div><div class="release-name"><span class="release-icon green">●</span><strong id="currentReleaseModel">Loading…</strong></div><small>Serving tutor requests</small></div>
-        <div class="flow-arrow"><span>→</span><small>TEST BEFORE PROMOTION</small></div>
-        <div class="release-box candidate-box"><label class="mini-label" for="candidateModel">CANDIDATE AZURE DEPLOYMENT</label><div class="candidate-input"><span class="release-icon violet">✣</span><input id="candidateModel" maxlength="128" autocomplete="off" placeholder="Set TUTOR_MODEL in .env"><span class="chevron">⌄</span></div><small>Enter here for a manual check; .env changes are checked on parent restart</small></div>
-        <button class="primary-button" id="evaluateButton" disabled>Run compatibility check <span>↗</span></button>
+    <section class="panel stage-panel" id="stage">
+      <div class="section-heading">
+        <span class="step-number">1</span>
+        <div><h2>Stage and check the candidate</h2><p>Enter the exact Azure deployment name you want to compare.</p></div>
+        <span class="gate-pill" id="gatePill"><i></i><span>Checks required</span></span>
       </div>
-      <div class="panel-foot"><span class="info-icon">i</span> Set TUTOR_MODEL in .env and restart the parent to stage and check a model. The active release keeps serving until you review the results and promote the candidate.</div>
+      <div class="stage-row">
+        <label class="field-group" for="candidateModel">
+          <span class="field-label">CANDIDATE AZURE DEPLOYMENT</span>
+          <input id="candidateModel" maxlength="128" autocomplete="off" placeholder="For example: gpt-5-nano">
+        </label>
+        <div class="evaluation-actions">
+          <button class="secondary-button" id="evaluateButton" type="button" disabled>Run core checks</button>
+          <button class="primary-button" id="finalEvaluateButton" type="button" disabled>Run final validation</button>
+        </div>
+      </div>
+        <p class="help-text">Use core checks while refining parent guidance. Final validation uses one to three configured judge deployments; every judge must pass in both blind answer orders. With one judge, especially when it is also the active model, the evidence is not independent; review results carefully. Tutor apps keep using the active model until promotion.</p>
     </section>
 
     <section class="panel compare-panel" id="compare">
-      <div class="panel-heading"><div><div class="section-label">SAME REQUEST, TWO MODELS</div><h2>Compare tutor behavior</h2></div><span class="spark violet-text">SIDE BY SIDE</span></div>
-      <p class="behavior-lead">Run the same prompt and student records through the active model and staged candidate using the registered application prompt.</p>
+      <div class="section-heading">
+        <span class="step-number">2</span>
+        <div><h2>Compare one real tutor request</h2><p>The same saved tutor prompt and student record go to both models.</p></div>
+      </div>
       <form id="compareForm" class="compare-form">
-        <label for="compareApplication">CLIENT APPLICATION</label><select id="compareApplication" required></select>
-        <label for="compareQuestion">QUESTION</label><textarea id="compareQuestion" rows="3" required placeholder="Enter the same question you use in the client app"></textarea>
-        <label for="compareRecords">SELECTED STUDENT RECORDS (JSON ARRAY)</label><textarea id="compareRecords" rows="7" spellcheck="false" required placeholder='[{"student_id":"QA-101","name":"Anika Rao","assessment_history":[]}]'></textarea>
-        <label for="compareFacts">REQUIRED FACTS (OPTIONAL, ONE PER LINE)</label><textarea id="compareFacts" rows="2" placeholder="Student name&#10;Assessment date"></textarea>
+        <label class="field-group" for="compareApplication">
+          <span class="field-label">TUTOR</span>
+          <select id="compareApplication" required disabled><option value="">Loading tutors...</option></select>
+        </label>
+        <label class="field-group" for="compareQuestion">
+          <span class="field-label">QUESTION</span>
+          <textarea id="compareQuestion" rows="4" required maxlength="4000" placeholder="Enter the same question you used in the tutor app, including the student's full name or ID."></textarea>
+        </label>
+        <p class="help-text">For these local tutors, the parent finds the student in MongoDB. You do not need to paste student JSON. This real-record comparison is not sent to an LLM judge; review persona and tone yourself. Automated judge checks use saved synthetic cases.</p>
         <button class="primary-button" id="compareButton" type="submit" disabled>Compare active and candidate</button>
       </form>
-      <div class="comparison-result" id="comparisonResult" hidden></div>
+      <details class="adapter-editor">
+        <summary>Parent compatibility guidance for this tutor</summary>
+        <p class="help-text">The parent preloads its standard behavior guidance for the staged model and this tutor. You can refine it for a demonstrated drift; the client tutor prompt remains unchanged. Saving edits invalidates the previous evaluation.</p>
+        <label class="field-group" for="compatibilityGuidance">
+          <span class="field-label">CANDIDATE-SPECIFIC GUIDANCE</span>
+          <textarea id="compatibilityGuidance" rows="5" maxlength="8000" placeholder="Parent behavior guidance is loaded when a candidate is staged."></textarea>
+        </label>
+        <button class="secondary-button" id="saveCompatibilityGuidance" type="button" disabled>Save candidate guidance</button>
+      </details>
+      <div class="comparison-result" id="comparisonResult" hidden aria-live="polite"></div>
     </section>
 
-    <div class="content-grid">
-      <section class="panel results-panel">
-        <div class="panel-heading"><div><div class="section-label">LATEST EVALUATION</div><h2>Benchmark results</h2></div><span class="status-label" id="evaluationStatus">AWAITING RUN</span></div>
-        <div class="evaluation-summary" id="evaluationSummary"><span class="empty-icon">⌁</span><strong>Ready when you are</strong><p>Set TUTOR_MODEL to an Azure deployment and restart the parent, or enter a deployment above to compare behavior with the active release.</p></div>
-        <div class="case-list" id="caseList"></div>
-        <div class="result-actions"><button class="secondary-button" id="rollbackButton" hidden>Roll back to previous release</button><button class="primary-button promote-button" id="promoteButton" disabled>Promote candidate <span>↗</span></button></div>
-      </section>
-
-      <aside class="right-column">
-        <section class="panel behavior-panel" id="behavior">
-          <div class="panel-heading"><div><div class="section-label violet-text">UNCHANGED THROUGH UPGRADE</div><h2>Behavior profile</h2></div><span class="spark violet-text">✳</span></div>
-          <p class="behavior-lead">The active release carries each tutor’s instructions and the shared response contract with the model.</p>
-          <div class="tutor-tabs" id="tutorTabs" role="tablist" aria-label="Tutor persona"></div>
-          <div class="persona-summary" id="personaSummary"></div>
-          <details class="editor-details">
-            <summary>Edit candidate behavior <span class="plus">＋</span></summary>
-            <p class="editor-help">Tutor persona prompts are locked during model upgrades. Only the parent-owned shared behavior contract can be staged here.</p>
-            <label for="promptEditor">Registered tutor prompt (read-only)</label>
-            <textarea id="promptEditor" rows="9" spellcheck="false" readonly></textarea>
-            <label for="contractEditor">Shared behavior contract</label>
-            <textarea id="contractEditor" rows="8" spellcheck="false"></textarea>
-            <button class="secondary-button full-button" id="saveContractButton">Save candidate contract</button>
-          </details>
-        </section>
-        <section class="panel promise-panel"><span class="promise-icon">i</span><div><strong>One stable contract</strong><p>All tutor requests use the parent’s active Azure model and versioned prompts. Candidate changes only go live after evaluation and promotion.</p></div></section>
-      </aside>
-    </div>
-
-    <section class="panel history-panel">
-      <div class="panel-heading"><div><div class="section-label">RELEASE HISTORY</div><h2>Active and previous releases</h2></div></div>
-      <div class="history-list" id="historyList"></div>
+    <section class="panel results-panel" id="results">
+      <div class="section-heading results-heading">
+        <span class="step-number">3</span>
+        <div><h2>Review checks and decide</h2><p>Only a passing final validation of core and reserved cases can authorize promotion.</p></div>
+        <span class="status-label" id="evaluationStatus">NOT RUN</span>
+      </div>
+      <div class="evaluation-summary" id="evaluationSummary">
+        <strong>Ready to evaluate</strong>
+        <p>Run core checks while refining guidance. When it is ready, run final validation; a core review alone cannot promote a model.</p>
+      </div>
+      <div class="case-list" id="caseList"></div>
+      <div class="result-actions">
+        <button class="secondary-button" id="rollbackButton" type="button" hidden>Roll back to previous release</button>
+        <button class="primary-button" id="promoteButton" type="button" disabled>Promote candidate</button>
+      </div>
     </section>
-    <footer>Northstar Model Platform <span>·</span> Azure OpenAI only <span>·</span> <a href="/api/health" target="_blank" rel="noreferrer">Service health</a></footer>
+
+    <p class="scope-note">After viewing reserved validation results, treat those examples as known. If guidance changes based on them, replace or refresh the reserved cases before relying on another final validation. Wording may vary; the gate checks the agreed facts, rules, and persona.</p>
+    <footer>Model Compatibility Control <span>|</span> Live traffic stays on the active release until promotion.</footer>
   </main>
 
   <dialog id="authDialog" class="auth-dialog">
     <form method="dialog" id="authForm">
       <button class="dialog-close" value="cancel" aria-label="Close">×</button>
-      <div class="section-label">CONTROL ACCESS</div><h2>Parent admin token</h2>
-      <p>Enter the <code>MODEL_ADMIN_TOKEN</code> configured on this server. It is held in this browser tab only.</p>
-      <label for="adminToken">Admin token</label><input id="adminToken" type="password" autocomplete="current-password" required>
-      <div class="dialog-actions"><button class="secondary-button" value="cancel">Cancel</button><button class="primary-button" id="connectButton" value="default">Connect</button></div>
+      <p class="eyebrow">CONTROL ACCESS</p>
+      <h2>Connect to the parent</h2>
+      <p>Enter the <code>MODEL_ADMIN_TOKEN</code> configured on this server. The token stays in this browser tab.</p>
+      <label class="field-label" for="adminToken">ADMIN TOKEN</label>
+      <input id="adminToken" type="password" autocomplete="current-password" required>
+      <div class="dialog-actions">
+        <button class="secondary-button" value="cancel">Cancel</button>
+        <button class="primary-button" id="connectButton" value="default">Connect</button>
+      </div>
     </form>
   </dialog>
-  <dialog id="registerApplicationDialog" class="auth-dialog wide-dialog">
-    <form id="registerApplicationForm">
-      <button class="dialog-close" type="button" data-close="registerApplicationDialog" aria-label="Close">×</button>
-      <div class="section-label">CLIENT ONBOARDING</div><h2>Register an application</h2>
-      <p>Register the client’s existing prompt and representative cases. The prompt is stored as a locked snapshot. This POC sends requests through the shared parent gateway envelope; a different client API needs a parent-side adapter.</p>
-      <label for="newApplicationId">Application ID</label><input id="newApplicationId" required pattern="[A-Za-z0-9][A-Za-z0-9_-]{1,63}" maxlength="64" placeholder="client_tutor_app">
-      <label for="newApplicationName">Display name</label><input id="newApplicationName" required maxlength="120" placeholder="Client Tutor">
-      <div class="form-row"><div><label for="newApplicationRole">Persona / role</label><input id="newApplicationRole" required maxlength="200" placeholder="Patient science tutor"></div><div><label for="newApplicationStyle">Style</label><input id="newApplicationStyle" required maxlength="80" placeholder="patient, encouraging"></div></div>
-      <label for="newApplicationPrompt">Existing client system prompt (saved unchanged)</label><textarea id="newApplicationPrompt" rows="8" required maxlength="16000" spellcheck="false"></textarea>
-      <label for="newApplicationData">Data integration description</label><input id="newApplicationData" maxlength="300" placeholder="Client selects MongoDB records and sends JSON context">
-      <label for="newApplicationDataIntegration">Data integration and boundary (optional JSON)</label><textarea id="newApplicationDataIntegration" rows="4" spellcheck="false" placeholder='{"mode":"client_selected_context","description":"The app selects relevant records and sends JSON context.","scope":"This credential is bound to this application ID."}'></textarea>
-      <label for="newApplicationApiSchema">API schema (optional JSON)</label><textarea id="newApplicationApiSchema" rows="4" spellcheck="false" placeholder='{"version":"v1","request":["application_id","question","student_records"],"response":["answer","mode","release_id"]}'></textarea>
-      <label for="newApplicationToolSchema">Tool schema (optional JSON)</label><textarea id="newApplicationToolSchema" rows="4" spellcheck="false" placeholder='[]'></textarea>
-      <label for="newApplicationHealth">Health URL (optional)</label><input id="newApplicationHealth" type="url" placeholder="https://client.example/health">
-      <label for="newApplicationCases">Regression cases (JSON array)</label><textarea id="newApplicationCases" rows="9" required spellcheck="false" placeholder='[{"id":"latest-result","question":"What was my latest result?","student_records":[{"name":"Sample Student","assessment_history":[{"assessment":"Quiz","score":8,"out_of":10,"assessed_on":"2026-10-01"}]}],"required_facts":["Quiz","2026-10-01"],"expected_score_pairs":[[8,10]],"persona_expectation":"Keep the registered tutor persona."}]'></textarea>
-      <div class="dialog-actions"><button class="secondary-button" type="button" data-close="registerApplicationDialog">Cancel</button><button class="primary-button" type="submit">Register client app</button></div>
-    </form>
-  </dialog>
-  <dialog id="credentialDialog" class="auth-dialog">
-    <form method="dialog">
-      <div class="section-label">APPLICATION CREDENTIAL</div><h2>Copy this token now</h2>
-      <p>This application token is shown once. Configure it as the client’s parent-gateway bearer credential.</p>
-      <label for="createdCredential">Gateway token</label><textarea id="createdCredential" rows="3" readonly></textarea>
-      <div class="dialog-actions"><button class="secondary-button" id="copyCredential" type="button">Copy token</button><button class="primary-button" value="close">Done</button></div>
-    </form>
-  </dialog>
-  <script src="/static/parent.js?v=3" defer></script>
+
+  <script src="/static/parent.js?v=9" defer></script>
 </body>
 </html>

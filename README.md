@@ -84,76 +84,124 @@ recorded in [V2_MODEL_UPGRADE_REQUIREMENTS.md](V2_MODEL_UPGRADE_REQUIREMENTS.md)
 switching a model should preserve each downstream app's prompt, persona, grading
 rules, and response contract, with compatibility checks before rollout.
 
-## V2 parent application (working local implementation)
+## Model compatibility and release control
 
-The parent application is the Azure model gateway and behavior control plane.
-It stores active and candidate releases in `config/model_control.json`. On the
-first launch, `TUTOR_MODEL` seeds the active deployment. On later launches, a
-different `TUTOR_MODEL` stages and evaluates a candidate. The active release
-continues serving until an administrator reviews the result and promotes the
-candidate. Failed or unavailable candidates are not promoted. The candidate
-starts empty when no model upgrade is staged.
+The parent routes registered applications through Azure and keeps active and
+candidate releases in `config/model_control.json`. It compares real requests,
+runs core and reserved validation cases, then allows promotion or rollback only
+when the current candidate passes. The provider adds a versioned candidate
+compatibility layer; client prompts and tutor service code remain unchanged.
 
-Set `MODEL_PARENT_URL`, `MODEL_ADMIN_TOKEN`, and the Azure endpoint/key in the
-parent's `.env`. Each sample tutor has its own `MODEL_GATEWAY_TOKEN_TUTOR_*`
-credential. Keep the Azure key on the parent host; tutor services need only the
-parent URL and their own gateway credential. The registry is
-`config/applications.json`; it records each sample app's prompt fingerprint,
-API/tool schema, data integration description, and regression-case coverage.
-Set the three `TUTOR_*_HEALTH_URL` values if the tutor services run on other
-hosts.
+Keep `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, `MODEL_ADMIN_TOKEN`, and
+`MODEL_GATEWAY_TOKEN*` in the parent `.env`. The Azure key stays on the parent.
+The active model is Mini in the current local state. A candidate can be staged
+by changing the parent's `TUTOR_MODEL` and restarting it, or by entering the
+Azure deployment name in the dashboard. Neither path changes a tutor's prompt.
+When a changed deployment is staged from `.env`, startup runs a core review only.
+The separate final-validation action is still required before promotion.
 
-Start the control plane from this folder:
+Start the parent from this project folder:
 
 ```powershell
 py -3.11 -m model_migration.run_parent --host 127.0.0.1 --port 8765
 ```
 
-Open `http://127.0.0.1:8765`, choose the account button, and enter
-`MODEL_ADMIN_TOKEN`. Start the three tutor services as usual. Their student
-facing `/api/ask` contract and data selection remain in the tutor applications;
-each sends its selected student context to the parent, which applies that app's
-saved prompt and the active model. If the parent is unavailable or rejects the
-app credential, the tutor returns an error instead of silently calling a local
-model.
+Open `http://127.0.0.1:8765` and enter `MODEL_ADMIN_TOKEN` when prompted. The
+current setup registers Abhishek, Siddhant, and Vicky in
+`config/applications.json`.
 
-### Test a model change
+### Compare and evaluate
 
-1. Leave `TUTOR_MODEL=gpt-5-mini` and confirm the saved active model is mini.
-   Capture baseline examples from the tutor apps.
-2. Change `TUTOR_MODEL` to the actual Azure deployment name for the candidate,
-   such as `gpt-5-nano`, and restart the parent. A parent restart is sufficient
-   for a model-only change; the tutor services keep calling the active gateway.
-3. The parent compares the saved active model and candidate against the
-   application-specific cases in the background. Mini remains live while the
-   dashboard shows the candidate result. Use **Compare tutor behavior** to run
-   the same question and student records through both deployments.
-4. Review the deterministic fact/score/format checks and the persona/quality
-   evaluation. Promote only after the evidence meets the agreed behavior
-   requirements. After promotion, new tutor requests use nano. Rollback restores
-   the previous release.
+1. Enter the candidate's exact Azure deployment name.
+2. Choose Abhishek, Siddhant, or Vicky. Enter the same question used in the
+   tutor app, including the student's full name or ID. For these local apps,
+   the parent looks up question-relevant fields in their shared MongoDB and
+   sends the same context and saved tutor prompt to both models. No student JSON
+   needs to be pasted.
+3. Review both first drafts and final drafts, their repair histories, the
+   record and response-rule checks, and each tutor's persona. A draft that
+   still violates the contract is shown for diagnosis; a live tutor request
+   withholds it.
+4. Shape candidate behavior through the versioned parent guidance for each
+   registered application. The client prompt stays unchanged. Use **Run core
+   checks** while refining guidance. This evaluates the six core cases and is
+   review-only. Once guidance is set, use **Run final validation**. It evaluates
+   the core cases plus six reserved validation cases and is the only run that
+   can authorize promotion. Both models get three paired generations per case
+   by default. Deterministic checks validate recorded facts, recommendation
+   anchoring, response shape, and unsupported extras. One to three configured
+   Azure deployments judge persona, contract compliance, factual accuracy, and
+   clarity; every configured judge must pass each case in two blinded answer
+   orders, and the candidate must pass in both. Configure judge
+   deployment names in `MODEL_EVAL_JUDGE_MODELS` as a comma-separated list.
+   The candidate cannot be part of its own judge panel. The dashboard shows
+   first-pass rates, repair counts, judge decisions, and paired responses.
+5. Promote only if final validation passes every case and you approve the
+   comparison. A failed case, changed suite, or incomplete evaluation blocks
+   promotion. Verify
+   the active model at `/api/health`. Use rollback to restore the previous
+   release.
 
-The current suite has two synthetic cases for each of the three sample tutors.
-It checks facts, score pairs, response rules, persona fidelity, and clarity;
-generation also has a one-repair attempt for selected live response-contract
-failures. These cases are a POC baseline, not proof for every real student
-request. Add representative app-specific cases and have a person review
-high-impact answers before treating the gate as a client guarantee. Different
-models can phrase answers differently; the promise is behavior and API-contract
-preservation within the agreed checks, not identical wording.
+The core and reserved cases cover representative facts, scores, recommendations,
+response shape, and tutor personas. They do not prove behavior for every future
+request, and multiple LLM judges cannot guarantee zero drift. Model wording can
+differ, so review tutor tone and use case results as the agreed release evidence.
+Guidance is stored per candidate deployment and application; editing it
+invalidates the earlier evaluation. If final results lead you to change
+guidance, refresh the reserved examples before relying on a later final run;
+cases already reviewed are no longer independent validation. Use distinct,
+stable judge deployments where possible. A single judge is supported when that
+is all that is available, but provides less independent evidence than a
+multi-model panel. If the judge is also the active model, its evaluation may
+share that model's preferences; the dashboard and server log warn about this.
+The service requires an explicitly configured judge and does not silently
+select a fallback. A manual comparison that resolves a real MongoDB record does
+not send that context to an LLM judge. It returns the paired model answers and
+deterministic checks for human tone review. Automated judge calls use only the
+saved synthetic regression fixtures.
 
-The dashboard supports registering an app's prompt snapshot, schemas, data
-integration notes, cases, and a one-time app-scoped token. A registered caller
-sends its token as a Bearer credential to `POST /api/v1/respond` with
-`application_id`, `question`, and `student_records`; the response includes
-`answer`, `mode`, `release_id`, `contract_revision`, and `prompt_revision`. The
-registry stores a client's API/tool schema, but this
-POC does not translate arbitrary client-specific request formats or execute
-client tools. A client with a different gateway format needs a parent-side
-adapter before it can remain unchanged at that integration boundary. The three
-sample tutor apps already use the shared envelope while keeping their own
-student-facing endpoints.
+### Langfuse traces
 
-After a dashboard rollback, set `TUTOR_MODEL` to the restored deployment before
-the next parent restart. Otherwise the newer value in `.env` will stage it again
-for evaluation.
+The parent can send privacy-safe request and model-call traces to the local
+Langfuse server. Traces contain application/tutor IDs, model and release
+metadata, status, and answer length; they omit client prompts, student records,
+questions, and answer text. Langfuse is optional: the parent keeps serving if it
+is not configured or temporarily unavailable.
+
+The local Langfuse instance is started separately from this repository. If it
+is stopped, launch it from its existing deployment folder:
+
+```powershell
+Set-Location C:\Users\admin\langfuse
+docker compose up -d
+```
+
+Open `http://localhost:3000` and use the existing `Model-Migration-Demo`
+project, or create a dedicated project if you prefer. Copy that project's
+public and secret keys into the parent `.env`, along with:
+
+```dotenv
+LANGFUSE_TRACING_ENABLED=true
+LANGFUSE_BASE_URL=http://127.0.0.1:3000
+LANGFUSE_PUBLIC_KEY=<project-public-key>
+LANGFUSE_SECRET_KEY=<project-secret-key>
+```
+
+Install the dependencies with `py -3.11 -m pip install -r requirements.txt`,
+restart only the parent, and check `/api/health` for
+`observability.langfuse.enabled`. Use the admin-authenticated
+`/api/observability/langfuse` endpoint to check credentials. After a tutor sends
+a request through the parent gateway, open Langfuse's **Traces** view to inspect
+the parent request span and nested Azure generation. Keep API keys in `.env`;
+never put them in client apps or browser code.
+
+The three local tutors share a MongoDB, which lets the parent resolve a student
+name in dashboard comparisons. Other clients must send selected context through
+the parent, provide an authorized data connector, or use regression fixtures.
+The parent cannot read a client's database by itself. An application currently
+calling Azure directly needs a one-time integration with the parent gateway
+before the parent can manage its model releases.
+
+After rollback, update the parent's `TUTOR_MODEL` to the restored deployment
+before restarting it. Otherwise the newer environment value will stage that
+model again.

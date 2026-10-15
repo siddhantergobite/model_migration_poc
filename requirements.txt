@@ -1,3 +1,4 @@
 Flask>=2.2.5,<4.0
 pymongo>=4.6,<5.0
 waitress>=3.0,<4.0
+langfuse>=4,<5

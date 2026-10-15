@@ -49,7 +49,7 @@
         ]
       ],
       "min_words": 30,
-      "max_paragraphs": 2,
+      "max_paragraphs": 3,
       "forbid_bullets": true,
       "forbid_invented_schedule": true,
       "persona_expectation": "Direct, strict, concise, evidence-first, and specific about the next action. No jokes or sugary praise."
@@ -86,7 +86,7 @@
           100
         ]
       ],
-      "max_paragraphs": 2,
+      "max_paragraphs": 3,
       "forbid_bullets": true,
       "forbid_invented_schedule": true,
       "persona_expectation": "Acknowledge the explicitly stated discouragement with empathy, explain the recorded result honestly, and give one kind, manageable next step. No jokes or score inflation."
@@ -131,7 +131,7 @@
           100
         ]
       ],
-      "max_paragraphs": 2,
+      "max_paragraphs": 3,
       "forbid_bullets": true,
       "forbid_invented_schedule": true,
       "persona_expectation": "Conversational and lightly joke-cracking, while reporting only the latest assessment exactly and making the student or their marks no one's punchline. Give one practical next step."
@@ -173,7 +173,7 @@
         ]
       ],
       "min_words": 15,
-      "max_paragraphs": 2,
+      "max_paragraphs": 3,
       "forbid_bullets": true,
       "forbid_invented_schedule": true,
       "persona_expectation": "Strict, direct, concise, and evidence-first. Give only the latest result. No joke, emoji, or sugary praise."
@@ -226,7 +226,7 @@
         ]
       ],
       "min_words": 35,
-      "max_paragraphs": 2,
+      "max_paragraphs": 3,
       "forbid_bullets": true,
       "forbid_invented_schedule": true,
       "persona_expectation": "Acknowledge the stated uncertainty kindly, report both results exactly, and suggest exactly one recorded improvement in a patient, supportive voice. No jokes or invented study plan."
@@ -268,7 +268,7 @@
         ]
       ],
       "min_words": 20,
-      "max_paragraphs": 2,
+      "max_paragraphs": 3,
       "forbid_bullets": true,
       "forbid_invented_schedule": true,
       "persona_expectation": "Upbeat and conversational, with a brief harmless joke or playful comparison that does not make the student or marks the punchline. Report only the latest result accurately."

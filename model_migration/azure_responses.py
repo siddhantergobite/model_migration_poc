@@ -9,6 +9,8 @@ import urllib.request
 from typing import Any
 from urllib.parse import urlsplit
 
+from model_migration.langfuse_tracing import observation_scope, safe_observation_update
+
 
 class AzureResponsesError(RuntimeError):
     pass
@@ -30,6 +32,42 @@ class AzureResponsesClient:
         )
 
     def complete(
+        self,
+        *,
+        model: str,
+        instructions: str,
+        input_text: str,
+        max_output_tokens: int = 2000,
+        json_mode: bool = False,
+    ) -> str:
+        with observation_scope(
+            name="azure.responses",
+            as_type="generation",
+            model=model.strip() or None,
+            metadata={"provider": "azure_openai", "json_mode": bool(json_mode)},
+        ) as generation:
+            try:
+                answer = self._complete_untraced(
+                    model=model,
+                    instructions=instructions,
+                    input_text=input_text,
+                    max_output_tokens=max_output_tokens,
+                    json_mode=json_mode,
+                )
+            except Exception as error:
+                safe_observation_update(generation, level="ERROR", status_message=type(error).__name__)
+                raise
+            safe_observation_update(
+                generation,
+                output={
+                    "status": "success",
+                    "answer": answer,
+                    "output_characters": len(answer),
+                },
+            )
+            return answer
+
+    def _complete_untraced(
         self,
         *,
         model: str,
